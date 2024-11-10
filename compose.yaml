@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik:v3.1
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --providers.docker.network=traefiknetwork
+      - --entrypoints.web.address=:80
+      - --log=true
+      - --accesslog.filepath=/var/log/access.log
+    networks:
+      - traefiknetwork
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8090:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs:/var/log
+    restart: unless-stopped
+
+networks:
+    traefiknetwork:
+        name: traefiknetwork
+        external: true
