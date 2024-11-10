@@ -11,7 +11,10 @@ services:
       - "8090:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik.yaml:/traefik.yaml
+      - ./traefik.yaml:/traefik.yaml:ro
+      - ./config.yaml:/config.yaml:ro
+      - ./certs:/etc/certs:ro
+      - ./acme.json:/acme.json
       - ./logs:/var/log
     restart: unless-stopped
 
