@@ -1,0 +1,41 @@
+global:
+  sendAnonymousUsage: false
+  checkNewVersion: false
+
+providers:
+  docker: 
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+    network: traefiknetwork
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+api:
+  dashboard: true
+  insecure: false
+  debug: false
+
+log:
+  level: DEBUG
+  maxAge: 2
+accessLog:
+  filepath: /var/log/access.log
+  addInternals: true
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: lgarrigue@gmail.com
+      storage: acme.json
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: web

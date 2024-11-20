@@ -5,6 +5,7 @@ global:
 providers:
   docker: 
     exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
     network: traefiknetwork
 
 entryPoints:
@@ -20,13 +21,15 @@ entryPoints:
 
 api:
   dashboard: true
-  insecure: true
-  debug: true
+  insecure: false
+  debug: false
 
 log:
-  level: INFO
+  level: DEBUG
+  maxAge: 366
 accessLog:
   filepath: /var/log/access.log
+  addInternals: true
 
 certificatesResolvers:
   myresolver:
@@ -36,14 +39,3 @@ certificatesResolvers:
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
-
-# certificatesResolvers:
-#   letsencrypt:
-#     acme:
-#       email: your-email@example.com
-#       storage: acme.json
-#       httpChallenge:
-#         entryPoint: web
-
-# metrics:
-#   prometheus: {}

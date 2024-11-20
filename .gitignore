@@ -2,3 +2,5 @@ logs/*
 !logs/.gitkeep
 certs/*
 !certs/.gitkeep
+.env
+config/.credentials

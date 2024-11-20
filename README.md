@@ -9,3 +9,15 @@ Créez un fichier acme.json vide :
 `touch acme.json`
 
 `chmod 600 acme.json`
+
+Créer un network pour traefik :
+
+`docker network create traefiknetwork`
+
+Hacher un mot de passe :
+
+`htpasswd -nB user1`
+
+Lancer le conteneur :
+
+`docker compose -f compose.XXX.yaml up -d`
